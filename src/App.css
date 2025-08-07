@@ -1,0 +1,155 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+/* Add these styles to your CSS file (App.css) */
+
+.customers-section {
+  padding: 60px 0;
+  background-color: #f7f7f7;
+}
+
+.customers-section .section-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.customers-section h2 {
+  color: #555;
+  font-size: 32px;
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+
+.customers-section .divider {
+  width: 60px;
+  height: 3px;
+  background-color: #f47721;
+  margin: 0 auto;
+}
+
+.customers-section .logos-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}
+
+.customers-section .logo-box {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  width: 180px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.customers-section .logo-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.customers-section .logo-box img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+  .customers-section .logos-container {
+    gap: 20px;
+  }
+  
+  .customers-section .logo-box {
+    width: 150px;
+    height: 80px;
+  }
+}
+
+@media (max-width: 576px) {
+  .customers-section .logos-container {
+    gap: 15px;
+  }
+  
+  .customers-section .logo-box {
+    width: 120px;
+    height: 70px;
+    padding: 15px;
+  }
+}
+/* Add these styles to your CSS file for the dropdown menus */
+
+/* Highlight the active dropdown item with orange background */
+.dropdown-item-active {
+  background-color: #f97316; /* green-600 */
+  color: white;
+}
+
+/* Add a subtle transition effect for dropdown menus */
+.dropdown-transition {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Custom styling for the partners dropdown to match your design */
+.partners-dropdown {
+  border-top: 3px solid #f97316;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.partners-dropdown-item {
+  border-bottom: 1px solid #e5e7eb;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.partners-dropdown-item:last-child {
+  border-bottom: none;
+}
+
+/* Customize the chevron icon to match your design */
+.dropdown-chevron {
+  transition: transform 0.2s ease;
+}
+
+.dropdown-open .dropdown-chevron {
+  transform: rotate(180deg);
+}
