@@ -1,52 +1,44 @@
 pipeline {
     agent any
 
-    environment {
-        DEPLOY_DIR = "/home/anuj/petstream-deploy/frontend"
-        REPO_URL = "https://github.com/MKN-Infotech/petstream-frontend.git"
-    }
-
     stages {
         stage('Clone Repo') {
             steps {
-                echo "Cloning frontend repository..."
-                deleteDir() // clean workspace
-                git branch: 'main', url: "${REPO_URL}"
+                echo 'Cloning frontend repository...'
+                // REMOVE or COMMENT this line below:
+                // git 'https://github.com/MKN-Infotech/petstream-frontend.git'
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                echo "Installing npm packages..."
                 sh 'npm install'
             }
         }
 
         stage('Build Project') {
             steps {
-                echo "Building React app..."
                 sh 'npm run build'
             }
         }
 
         stage('Deploy Build') {
             steps {
-                echo "Deploying to server path..."
-                sh """
-                    rm -rf ${DEPLOY_DIR}
-                    mkdir -p ${DEPLOY_DIR}
-                    cp -r build/* ${DEPLOY_DIR}/
-                """
+                sh '''
+                rm -rf /home/anuj/petstream-deploy/frontend
+                mkdir -p /home/anuj/petstream-deploy/frontend
+                cp -r build/* /home/anuj/petstream-deploy/frontend
+                '''
             }
         }
     }
 
     post {
         success {
-            echo "✅ Frontend deployed successfully!"
+            echo '✅ Deployment successful.'
         }
         failure {
-            echo "❌ Deployment failed. Check logs."
+            echo '❌ Deployment failed. Check logs.'
         }
     }
 }
