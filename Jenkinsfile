@@ -1,33 +1,32 @@
 pipeline {
     agent any
 
-    stages {
-        stage('Clone Repo') {
-            steps {
-                echo 'Cloning frontend repository...'
-                // REMOVE or COMMENT this line below:
-                // git 'https://github.com/MKN-Infotech/petstream-frontend.git'
-            }
-        }
+    environment {
+        DEPLOY_DIR = "/home/anuj/petstream-deploy/frontend"
+    }
 
+    stages {
         stage('Install Dependencies') {
             steps {
+                echo '📦 Installing dependencies...'
                 sh 'npm install'
             }
         }
 
         stage('Build Project') {
             steps {
+                echo '🛠️ Building frontend...'
                 sh 'npm run build'
             }
         }
 
         stage('Deploy Build') {
             steps {
+                echo '🚀 Deploying build to server...'
                 sh '''
-                rm -rf /home/anuj/petstream-deploy/frontend
-                mkdir -p /home/anuj/petstream-deploy/frontend
-                cp -r build/* /home/anuj/petstream-deploy/frontend
+                rm -rf ${DEPLOY_DIR}
+                mkdir -p ${DEPLOY_DIR}
+                cp -r build/* ${DEPLOY_DIR}/
                 '''
             }
         }
@@ -35,10 +34,10 @@ pipeline {
 
     post {
         success {
-            echo '✅ Deployment successful.'
+            echo '✅ Frontend deployed successfully.'
         }
         failure {
-            echo '❌ Deployment failed. Check logs.'
+            echo '❌ Frontend deployment failed.'
         }
     }
 }
