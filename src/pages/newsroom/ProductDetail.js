@@ -77,45 +77,42 @@ const ProductDetail = () => {
       <br />
 
       {/* Main Content */}
-      <main className="pb-16 flex-grow bg-white">
-        <div className="max-w-7xl mx-auto px-4">
-          {products.length === 0 ? (
-            <div className="text-center py-16">
-              <p className="text-gray-500 text-lg">No products available at the moment.</p>
-            </div>
-          ) : (
-            <>
-              {/* First and Second Product Layout Side-by-Side */}
-              <div className="flex flex-col lg:flex-row gap-8 mb-16">
-                {/* First Product - Wide Left Column */}
-                {products && (
-                  <article key={products.id} className="lg:w-2/3 border-b pb-10">
-                    <Link to={`/newsroom/products/${products.id}`}>
-                    <h2 className="text-3xl font-bold text-gray-800 leading-snug mb-3">
-                      {products.title || 'Untitled Product'}  
-                    </h2>
-                    </Link>
-                    <p className="text-gray-600 mb-4">
-                      {products.description}
-                    </p>
-                    <img
-                      src={`https://petstream.in${products.file}`}
-                      alt="Product"
-                      className="w-full h-80 object-cover rounded-md"
-                    />
-                  </article>
-                )}
-
-               
-              </div>
-
-            
-            </>
+<main className="pb-16 flex-grow bg-white">
+  <div className="max-w-7xl mx-auto px-4">
+    {products.length === 0 ? (
+      <div className="text-center py-16">
+        <p className="text-gray-500 text-lg">
+          No products available at the moment.
+        </p>
+      </div>
+    ) : (
+      <>
+        {/* Product Layout */}
+        <div className="flex flex-col items-center gap-8 mb-16">
+          {products && (
+            <article
+              key={products.id}
+              className="w-full lg:w-2/3 flex flex-col items-center text-center border-b pb-10"
+            >
+                <h1 className="text-3xl font-bold text-gray-800 leading-snug mb-3">
+                  {products.title || "Untitled Product"}
+                </h1>
+              <p className="text-gray-600 mb-4 max-w-2xl">
+                {products.description}
+              </p>
+              <img
+                src={`http://localhost:5000${products.file}`}
+                alt=""
+                className="w-full max-w-3xl h-80 object-cover rounded-md"
+              />
+            </article>
           )}
-
-        
         </div>
-      </main>
+      </>
+    )}
+  </div>
+</main>
+
 
       {/* CTA */}
       <ContactCTA />
