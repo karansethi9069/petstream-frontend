@@ -65,6 +65,10 @@ import TrainingUpdate from "./pages/newsroom/TrainingUpdate";
 import IndustryInformationExchange from "./pages/newsroom/IndustryInformationExchange";
 import LatestNews from "./pages/newsroom/LatestNews";
 import LatestEvent from "./pages/newsroom/LatestEvent";
+import DetailPage from "./pages/newsroom/DetailPage";
+import ProductDetail from "./pages/newsroom/ProductDetail";
+import IndustryDetails from "./pages/newsroom/IndustryDetails";
+import EventDetails from "./pages/newsroom/EventDetails";
 
 // Admin Panel Components
 import { AuthProvider } from "./components/adminpanel/components/AuthContext";
@@ -190,6 +194,11 @@ function App() {
               <Route path="/newsroom/industry" element={<IndustryInformationExchange />} />
               <Route path="/newsroom/news" element={<LatestNews />} />
               <Route path="/newsroom/events" element={<LatestEvent />} />
+              <Route path="/newsroom/news/detail/:id" element={<DetailPage />} />
+              <Route path="/newsroom/products/:id" element={<ProductDetail />} />
+              <Route path="/newsroom/industry/details/:id" element={<IndustryDetails />} />
+              <Route path="/newsroom/event/details/:id" element={<EventDetails />} />
+              
 
               {/* ——— Basic Product Routes ——— */}
               <Route path="/products/injection-molding" element={<InjectionMolding />} />
