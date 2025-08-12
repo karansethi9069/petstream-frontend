@@ -110,7 +110,7 @@ const LatestNews = () => {
                       )}
                     </p>
                     <br></br>
-                    <img src={`http://localhost:5000${news[0].file}`} alt="" className="w-full h-80 object-cover rounded-md mb-4" />
+                    <img src={`https://petstream.in${news[0].file}`} alt="" className="w-full h-80 object-cover rounded-md mb-4" />
 
                   </article>
                 )}
@@ -138,7 +138,7 @@ const LatestNews = () => {
                       )}
                     </p>
                     <br></br>
-                    <img src={`http://localhost:5000${news[1].file}`} alt="" className="w-full h-48 object-cover rounded-md mb-3" />
+                    <img src={`https://petstream.in${news[1].file}`} alt="" className="w-full h-48 object-cover rounded-md mb-3" />
 
                   </article>
                 )}
@@ -153,7 +153,7 @@ const LatestNews = () => {
 
                   return (
                     <article key={item.id} className="border rounded-md shadow hover:shadow-lg transition p-4 bg-white">
-                      <img src={`http://localhost:5000${item.file}`} alt="" className="w-full h-48 object-cover rounded-md mb-3" />
+                      <img src={`https://petstream.in${item.file}`} alt="" className="w-full h-48 object-cover rounded-md mb-3" />
                       <Link to={`/newsroom/news/detail/${item.id}`}>
                       <h2 className="text-3xl font-bold text-gray-800 mb-2 hover:text-blue-600 transition">{item.headline || 'Untitled News'}</h2>
                       </Link>
