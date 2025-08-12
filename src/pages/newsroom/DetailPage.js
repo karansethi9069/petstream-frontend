@@ -98,7 +98,7 @@ const DetailPage = () => {
               </p>
               {news.file && (
                 <img
-                  src={`http://localhost:5000${news.file}`}
+                  src={`https://petstream.in${news.file}`}
                   alt=""
                   className="w-full h-80 object-cover rounded-md mb-4"
                 />
