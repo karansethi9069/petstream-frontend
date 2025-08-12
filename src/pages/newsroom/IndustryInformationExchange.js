@@ -105,8 +105,8 @@ const IndustryInformation = () => {
                       )}
                     </p>
                     <img
-                      src={`https://petstream.in${industryItems[0].file}`}
-                      alt={industryItems[0].title}
+                      src={`http://localhost:5000${industryItems[0].file}`}
+                      alt=""
                       className="w-full h-80 object-cover rounded-md"
                     />
                   </article>
@@ -133,8 +133,8 @@ const IndustryInformation = () => {
                       )}
                     </p>
                     <img
-                      src={`https://petstream.in${industryItems[1].file}`}
-                      alt={industryItems[1].title}
+                      src={`http://localhost:5000${industryItems[1].file}`}
+                      alt=""
                       className="w-full h-48 object-cover rounded-md"
                     />
                   </article>
@@ -155,8 +155,8 @@ const IndustryInformation = () => {
                   return (
                     <article key={item.id} className="border rounded-md shadow hover:shadow-lg transition p-4 bg-white">
                       <img
-                        src={`https://petstream.in${item.file}`}
-                        alt={item.title}
+                        src={`http://localhost:5000${item.file}`}
+                        alt=""
                         className="w-full h-48 object-cover rounded-md mb-3"
                       />
                       <Link to={`/newsroom/industry/details/${item.id}`}>
