@@ -85,7 +85,7 @@ const LatestNews = () => {
                 {news[0] && (
                   <article key={news[0].id} className="lg:w-2/3 border-b pb-10">
                     <Link to={`/newsroom/news/detail/${news[0].id}`}>
-                    <h2 className="text-3xl font-bold text-gray-800 mb-2">{news[0].headline || 'Untitled News'}   </h2>
+                    <h2 className="text-3xl font-bold text-gray-800 mb-2 hover:text-blue-600 transition">{news[0].headline || 'Untitled News'}   </h2>
                     </Link>
                     <div className="text-sm text-gray-500 mb-2">
                       {new Date(news[0].published_date).toLocaleDateString()}
@@ -110,7 +110,7 @@ const LatestNews = () => {
                       )}
                     </p>
                     <br></br>
-                    <img src={`https://petstream.in${news[0].file}`} alt="News" className="w-full h-80 object-cover rounded-md mb-4" />
+                    <img src={`http://localhost:5000${news[0].file}`} alt="" className="w-full h-80 object-cover rounded-md mb-4" />
 
                   </article>
                 )}
@@ -119,7 +119,7 @@ const LatestNews = () => {
                 {news[1] && (
                   <article key={news[1].id} className="lg:w-1/3 bg-white border shadow p-4 rounded-md">
                     <Link to={`/newsroom/news/detail/${news[1].id}`}>
-                    <h2 className="text-xl font-bold text-gray-800 mb-2">{news[1].headline || 'Untitled News'}</h2>
+                    <h2 className="text-3xl font-bold text-gray-800 mb-2 hover:text-blue-600 transition">{news[1].headline || 'Untitled News'}</h2>
                     </Link>
                     <div className="text-sm text-gray-500 mb-2">
                       {new Date(news[1].published_date).toLocaleDateString()}
@@ -138,7 +138,7 @@ const LatestNews = () => {
                       )}
                     </p>
                     <br></br>
-                    <img src={`https://petstream.in${news[1].file}`} alt="News" className="w-full h-48 object-cover rounded-md mb-3" />
+                    <img src={`http://localhost:5000${news[1].file}`} alt="" className="w-full h-48 object-cover rounded-md mb-3" />
 
                   </article>
                 )}
@@ -153,9 +153,9 @@ const LatestNews = () => {
 
                   return (
                     <article key={item.id} className="border rounded-md shadow hover:shadow-lg transition p-4 bg-white">
-                      <img src={`https://petstream.in${item.file}`} alt="News" className="w-full h-48 object-cover rounded-md mb-3" />
+                      <img src={`http://localhost:5000${item.file}`} alt="" className="w-full h-48 object-cover rounded-md mb-3" />
                       <Link to={`/newsroom/news/detail/${item.id}`}>
-                      <h2 className="text-xl font-semibold text-gray-800 mb-1">{item.headline || 'Untitled News'}</h2>
+                      <h2 className="text-3xl font-bold text-gray-800 mb-2 hover:text-blue-600 transition">{item.headline || 'Untitled News'}</h2>
                       </Link>
                       <p className="text-gray-500 text-sm mb-2">{formattedDate}</p>
                       {item.category && (
