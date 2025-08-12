@@ -80,7 +80,7 @@ const LatestEvent = () => {
                 {events[0] && (
                   <article key={events[0].id} className="lg:w-2/3 border-b pb-10">
                     <Link to={`/newsroom/event/details/${events[0].id}`}>
-                      <h2 className="text-3xl font-bold text-gray-800 leading-snug mb-3">
+                      <h2 className="text-3xl font-bold text-gray-800 mb-2 hover:text-blue-600 transition">
                         {events[0].title || 'Untitled Event'}
                       </h2>
                     </Link>
@@ -102,8 +102,8 @@ const LatestEvent = () => {
                       )}
                     </p>
                     <img
-                      src={`https://petstream.in${events[0].file}`}
-                      alt="Event"
+                      src={`http://localhost:5000${events[0].file}`}
+                      alt=""
                       className="w-full h-80 object-cover rounded-md"
                     />
                   </article>
@@ -113,7 +113,7 @@ const LatestEvent = () => {
                 {events[1] && (
                   <article key={events[1].id} className="lg:w-1/3 bg-white border shadow p-4 rounded-md">
                     <Link to={`/newsroom/event/details/${events[1].id}`}>
-                      <h2 className="text-xl font-bold text-gray-800 leading-snug mb-2">
+                      <h2 className="text-3xl font-bold text-gray-800 mb-2 hover:text-blue-600 transition">
                         {events[1].title || 'Untitled Event'}
                       </h2>
                     </Link>
@@ -135,8 +135,8 @@ const LatestEvent = () => {
                       )}
                     </p>
                     <img
-                      src={`https://petstream.in${events[1].file}`}
-                      alt="Event"
+                      src={`http://localhost:5000${events[1].file}`}
+                      alt=""
                       className="w-full h-48 object-cover rounded-md"
                     />
                   </article>
@@ -155,12 +155,12 @@ const LatestEvent = () => {
                       className="border rounded-md shadow hover:shadow-lg transition p-4 bg-white"
                     >
                       <img
-                        src={`https://petstream.in${event.file}`}
-                        alt="Event"
+                        src={`http://localhost:5000${event.file}`}
+                        alt=""
                         className="w-full h-48 object-cover rounded-md mb-3"
                       />
                       <Link to={`/newsroom/event/details/${event.id}`}>
-                        <h2 className="text-xl font-semibold text-gray-800 mb-1">
+                        <h2 className="text-3xl font-bold text-gray-800 mb-2 hover:text-blue-600 transition">
                           {event.title || 'Untitled Event'}
                         </h2>
                       </Link>
