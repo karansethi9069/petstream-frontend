@@ -1,5 +1,6 @@
-import React, { useState , useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import TagManager from 'react-gtm-module'; // ✅ import GTM
 
 // Placeholder for actual image imports
 import zonwoBanner from '../../assets/images/zonwo-banner.jpg';
@@ -22,26 +23,28 @@ import imgP7 from '../../assets/images/Medical-pharma-paxkaging-mold.jpg';
 import imgP8 from '../../assets/images/Packaging&Systems.jpg';
 
 const LabEquipment = () => {
+  const navigate = useNavigate();
+
   useEffect(() => {
-    // Method 1: Immediate scroll to top
+    // ✅ Initialize Google Tag Manager
+    const tagManagerArgs = {
+      gtmId: 'AW-16797076856',
+    };
+    TagManager.initialize(tagManagerArgs);
+
+    // ✅ Scroll to top when page loads
     window.scrollTo(0, 0);
-    
-    // Method 2: Smooth scroll after a brief delay
     setTimeout(() => {
-      window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: 'smooth'
-      });
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     }, 100);
-    
-    // Method 3: Using document body scroll
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
   }, []);
+
   // State for tab selection
-  const [activeTab, setActiveTab] = useState('features'); // 'features', 'applications', or 'specifications'
-  const [activeInfoTab, setActiveInfoTab] = useState('company'); // 'company' or 'preform'
+  const [activeTab, setActiveTab] = useState('features');
+  const [activeInfoTab, setActiveInfoTab] = useState('company');
+
     const navigate = useNavigate(); // ADD THIS LINE
     
   const handleNavigation = (path) => {
