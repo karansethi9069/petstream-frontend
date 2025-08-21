@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import TagManager from 'react-gtm-module';
 
 // Placeholder for actual image imports
 import zonwoBanner from '../../assets/images/zonwo-banner.jpg';
@@ -27,14 +26,28 @@ import imgP8 from '../../assets/images/Packaging&Systems.jpg';
 const LabEquipment = () => {
   const navigate = useNavigate();
 
+  // ----------------------- Google Ads (gtag.js) for THIS PAGE ONLY -----------------------
   useEffect(() => {
-    // Initialize Google Tag Manager (once)
-    const tagManagerArgs = { gtmId: 'AW-16797076856' };
-    TagManager.initialize(tagManagerArgs);
+    // Prevent double-injecting if user navigates back and forth
+    const SCRIPT_ID = 'ga-gtag-aw-16797076856';
+    const existing = document.getElementById(SCRIPT_ID);
 
-    // Optional: push a page view event
+    if (!existing) {
+      const script = document.createElement('script');
+      script.id = SCRIPT_ID;
+      script.async = true;
+      script.src = 'https://www.googletagmanager.com/gtag/js?id=AW-16797076856';
+      document.head.appendChild(script);
+    }
+
+    // Ensure dataLayer exists and initialize gtag
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ window.dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'AW-16797076856'); // <-- only conversion ID, no label
+
+    // Optional: push a page_view event to the dataLayer (kept from your code)
     try {
-      window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
         event: 'page_view',
         page: {
@@ -46,8 +59,11 @@ const LabEquipment = () => {
     } catch (e) {
       // no-op
     }
+  }, []);
+  // ---------------------------------------------------------------------------------------
 
-    // Scroll to top on mount
+  // Scroll to top on mount (your existing behavior)
+  useEffect(() => {
     window.scrollTo(0, 0);
     setTimeout(() => {
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
