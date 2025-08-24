@@ -11,6 +11,7 @@ const ProductsUpdate = () => {
   const [error, setError] = useState(null);
   const [visibleProducts, setVisibleProducts] = useState(5);
   const [expandedItems, setExpandedItems] = useState([]);
+  const [visibleCount, setVisibleCount] = useState(5);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -31,11 +32,36 @@ const ProductsUpdate = () => {
       .finally(() => setLoading(false));
   }, [visibleProducts]);
 
-  const handleLoadMore = () => {
-    const nextVisible = visibleProducts + 5;
-    setVisibleProducts(nextVisible);
-    setProducts(allProducts.slice(0, nextVisible));
+   const getCategoryColor = (category) => {
+    switch (category?.toLowerCase()) {
+      case 'breaking':
+        return 'bg-red-100 text-red-800';
+      case 'case study':
+        return 'bg-red-100 text-red-800 bg-orange-500 text-orange-600 bg-orange-50 border-orange-200';
+      case 'company news':
+        return 'bg-green-100 text-green-800 bg-green-500 text-green-600 bg-green-50 border-green-200';
+      case 'product focus':
+        return 'bg-purple-100 text-purple-800 bg-purple-500 text-purple-600 bg-purple-50 border-purple-200';
+        
+        
+      case 'announcement':
+        return 'bg-blue-100 text-blue-800';
+      case 'press release':
+        return 'bg-green-100 text-green-800';
+      case 'update':
+        return 'bg-yellow-100 text-yellow-800';
+      case 'featured':
+        return 'bg-purple-100 text-purple-800';
+      default:
+        return 'bg-gray-100 text-gray-800';
+    }
   };
+
+  const handleLoadMore = () => {
+    setVisibleCount((prev) => prev + 6);
+  };
+
+  
 
   const toggleReadMore = (id) => {
     setExpandedItems((prev) =>
@@ -86,17 +112,22 @@ const ProductsUpdate = () => {
                 {/* First Product - Wide Left Column */}
                 {products[0] && (
                   <article key={products[0].id} className="lg:w-2/3 border-b pb-10">
+                    {products[0].category && (
+                      <div className={`inline-block mb-4 px-3 py-1 text-xs font-semibold rounded-full ${getCategoryColor(products[0].category)}`}>
+                        {products[0].category}
+                      </div>
+                    )}
                     <Link to={`/newsroom/products/${products[0].id}`}>
-                    <h2 className="text-3xl font-bold text-gray-800 mb-2 hover:text-blue-600 transition">
+                    <h2 className="text-3xl font-bold text-gray-800 mb-2 no-underline hover:underline transition">
                       {products[0].title || 'Untitled Product'}  
                     </h2>
                     </Link>
-                    <p className="text-gray-600 mb-4">
+                   
+                    <p className="text-gray-700">
                       {expandedItems.includes(products[0].id)
                         ? products[0].description
-                        : `${products[0].description?.substring(0, 200)}...`}
-                        
-                      {products[0].description?.length > 200 && (
+                        : `${products[0].description?.substring(0, 250)}...`}
+                      {products[0].description?.length > 250 && (
                         <button
                           onClick={() => toggleReadMore(products[0].id)}
                           className="ml-2 text-blue-600 hover:underline text-sm"
@@ -105,89 +136,175 @@ const ProductsUpdate = () => {
                         </button>
                       )}
                     </p>
-                    <img
-                      src={`https://petstream.in${products[0].file}`}
-                      alt=""
-                      className="w-full h-80 object-cover rounded-md"
-                    />
+                    {(products[0].tag) && (
+  <div className="mb-4">
+    <span className="text-base text-gray-700 font-semibold underline">Tags  :</span>
+    <div className="inline-flex flex-wrap gap-3 mt-2">
+      {products[0].tag && products[0].tag.split(',').map((tags, index) => (
+        <span
+          key={index}
+          className="text-lg text-gray-700 font-medium underline"
+        >
+          {tags.trim()}
+        </span>
+      ))}
+    </div>
+  </div>
+)}
+                                    <br></br>
+                    {products?.[0]?.file?.length > 0 && (
+  <img
+    src={`https://petstream.in${JSON.parse(products[0].file)[0]}`}
+    alt="products"
+    className="w-full h-80 object-cover rounded-md mb-4 transition-transform duration-300 ease-in-out transform hover:scale-105"
+  />
+)}
                   </article>
                 )}
 
                 {/* Second Product - Compact Right Column */}
-                {products[1] && (
-                  <article key={products[1].id} className="lg:w-1/3 bg-white border shadow p-4 rounded-md">
-                     <Link to={`/newsroom/products/${products[1].id}`}>
-                    <h2 className="text-3xl font-bold text-gray-800 mb-2 hover:text-blue-600 transition">
-                      {products[1].title || 'Untitled Product'}
-                    </h2>
-                    </Link>
-                    <p className="text-gray-600 text-sm mb-3">
-                      {expandedItems.includes(products[1].id)
-                        ? products[1].description
-                        : `${products[1].description?.substring(0, 100)}...`}
-                      {products[1].description?.length > 100 && (
-                        <button
-                          onClick={() => toggleReadMore(products[1].id)}
-                          className="ml-2 text-blue-600 hover:underline text-sm"
+                 {products[1] && (
+                                  <article key={products[1].id} className="lg:w-1/3 bg-white border shadow p-4 rounded-md">
+                                     {products[0].category && (
+                                      <div className={`inline-block mb-4 px-3 py-1 text-xs font-semibold rounded-full ${getCategoryColor(products[1].category)}`}>
+                                        {products[1].category}
+                                      </div>
+                                    )}
+                                    <Link to={`/newsroom/products/${products[1].id}`}>
+                                    <h2 className="text-3xl font-bold text-gray-800 mb-2 no-underline hover:underline transition">{products[1].headline || 'Untitled products'}</h2>
+                                    </Link>
+                                    <div className="text-sm text-gray-500 mb-2">
+                                      {new Date(products[1].published_date).toLocaleDateString()}
+                                    </div>
+                                    <p className="text-gray-700 text-sm">
+                                      {expandedItems.includes(products[1].id)
+                                        ? products[1].description
+                                        : `${products[1].description?.substring(0, 120)}...`}
+                                      {products[1].description?.length > 120 && (
+                                        <button
+                                          onClick={() => toggleReadMore(products[1].id)}
+                                          className="ml-2 text-blue-600 hover:underline text-sm"
+                                        >
+                                          {expandedItems.includes(products[1].id) ? 'Show Less' : 'Read More'}
+                                        </button>
+                                      )}
+                                    </p>
+                                    {(products[1].tag) && (
+                  <div className="mb-4">
+                    <span className="text-base text-gray-700 font-semibold underline">Tags  :</span>
+                    <div className="inline-flex flex-wrap gap-3 mt-2">
+                      {products[1].tag && products[1].tag.split(',').map((tags, index) => (
+                        <span
+                          key={index}
+                          className="text-lg text-gray-700 font-medium underline"
                         >
-                          {expandedItems.includes(products[1].id) ? 'Show Less' : 'Read More'}
-                        </button>
-                      )}
-                    </p>
-                    <img
-                      src={`https://petstream.in${products[1].file}`}
-                      alt=""
-                      className="w-full h-48 object-cover rounded-md"
-                    />
-                  </article>
+                          {tags.trim()}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
                 )}
+                                    <br></br>
+                                     {products?.[1]?.file?.length > 0 && (
+                  <img
+                    src={`https://petstream.in${JSON.parse(products[1].file)[0]}`}
+                    alt="products"
+                    className="w-full h-80 object-cover rounded-md mb-4 transition-transform duration-300 ease-in-out transform hover:scale-105"
+                  />
+                )}
+                                  </article>
+                                )}
               </div>
 
               {/* Remaining Products - Grid Cards */}
               <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                {products.slice(2).map((product) => {
-                  const formattedDate = new Date(product.created_date).toLocaleDateString(undefined, {
-                    month: 'long',
-                    day: 'numeric',
-                    year: 'numeric',
-                  });
-
-                  const isExpanded = expandedItems.includes(product.id);
-                  const isLong = product.description?.length > 200;
-
-                  return (
-                    <article
-                      key={product.id}
-                      className="border rounded-md shadow hover:shadow-lg transition p-4 bg-white"
-                    >
-                      <img
-                        src={`https://petstream.in${product.file}`}
-                        alt=""
-                        className="w-full h-48 object-cover rounded-md mb-3"
-                      />
-                      <Link to={`/newsroom/products/${product.id}`}>
-                      <h2 className="text-3xl font-bold text-gray-800 mb-2 hover:text-blue-600 transition">
-                        {product.title || 'Untitled Product'}
-                      </h2>
-                      </Link>
-                      <p className="text-gray-500 text-sm mb-2">{formattedDate}</p>
-                      <div className="text-gray-700 text-sm whitespace-pre-line">
-                        {isExpanded || !isLong
-                          ? product.description
-                          : `${product.description?.substring(0, 200)}...`}
-                        {isLong && (
-                          <button
-                            onClick={() => toggleReadMore(product.id)}
-                            className="ml-2 text-blue-600 hover:underline text-sm"
-                          >
-                            {isExpanded ? 'Show Less' : 'Read More'}
-                          </button>
-                        )}
-                      </div>
-                    </article>
-                  );
-                })}
-              </div>
+                              {products.slice(2, visibleCount).map((item) => {
+                                const formattedDate = new Date(item.published_date).toLocaleDateString();
+                                const isExpanded = expandedItems.includes(item.id);
+                                const isLong = item.content?.length > 180;
+                                let imageUrl = null;
+                try {
+                  // Parse stringified JSON into array
+                  const files = JSON.parse(item.file);
+              
+                  if (Array.isArray(files)) {
+                    // Pick the first image file only (ignore videos/audio)
+                    const firstImage = files.find(f =>
+                      /\.(jpe?g|png|gif|webp)$/i.test(f)
+                    );
+                    if (firstImage) {
+                      imageUrl = `https://petstream.in${firstImage}`;
+                    }
+                  }
+                } catch (err) {
+                  console.error("Error parsing file field:", item.file, err);
+                }
+              
+                                return (
+                                  <article key={item.id} className="border rounded-md shadow hover:shadow-lg transition p-4 bg-white">
+                                    {item.category && (
+                <div className="flex items-center gap-3 mb-2">
+                  {/* Bigger Circle */}
+                  <span
+                    className={`w-4 h-4 rounded-full inline-block ${getCategoryColor(
+                      item.category
+                    )}`}
+                  ></span>
+                  {/* Bigger Font */}
+                  <span className="text-lg font-semibold text-gray-800">
+                    {item.category}
+                  </span>
+                </div>
+              )}
+              
+              
+                                    
+                                    <Link to={`/newsroom/news/detail/${item.id}`}>
+                                    <h2 className="text-3xl font-bold text-gray-800 mb-2 no-underline hover:underline transition">
+                {item.headline && item.headline.length > 30 
+                  ? item.headline.substring(0, 100)
+                  : item.headline || "Untitled News"}
+              </h2>
+                                    </Link>
+                                    <p className="text-gray-500 text-sm mb-2">{formattedDate}</p>
+                                    
+                                    <div className="text-gray-700 text-sm whitespace-pre-line">
+                                      {isExpanded || !isLong
+                                        ? item.content
+                                        : `${item.content?.substring(0, 180)}...`}
+                                      {isLong && (
+                                        <button
+                                          onClick={() => toggleReadMore(item.id)}
+                                          className="ml-2 text-blue-600 hover:underline text-sm"
+                                        >
+                                          {isExpanded ? 'Show Less' : 'Read More'}
+                                        </button>
+                                      )}
+                                    </div>
+                                    {(item.tag) && (
+                                    <div className="mb-4">
+                                      <span className="text-base text-gray-700 font-semibold underline">Tags  :</span>
+                                      <div className="inline-flex flex-wrap gap-3 mt-2">
+                                        {item.tag && item.tag.split(',').map((tags, index) => (
+                                          <span
+                                            key={index}
+                                            className="text-lg text-gray-700 font-medium underline"
+                                          >
+                                            {tags.trim()}
+                                          </span>
+                                        ))}
+                                      </div>
+                                    </div>
+                                  )}
+                                  <img
+                      src={imageUrl}
+                      alt="news-img"
+                      className="w-full h-80 object-cover rounded-md mb-4 transition-transform duration-300 ease-in-out transform hover:scale-105"
+                    />
+                                  </article>
+                                );
+                              })}
+                            </div>
             </>
           )}
 
