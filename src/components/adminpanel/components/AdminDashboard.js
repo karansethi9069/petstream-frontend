@@ -104,9 +104,8 @@ export default function AdminDashboard() {
 
   const sidebarItems = [
     { id: 'products',  label: 'Products Update',      icon: Package },
-    { id: 'industry',  label: 'Industry Information', icon: TrendingUp },
-    { id: 'news',      label: 'Latest News',          icon: Newspaper },
-    { id: 'events',    label: 'Latest Events',        icon: Calendar }
+   { id: 'news',      label: 'Latest News',          icon: Newspaper },
+    
   ];
 
   useEffect(() => {
