@@ -1,5 +1,5 @@
 // src/AdminDashboard.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
@@ -8,7 +8,8 @@ import {
   Settings, User, LogOut, Bell, Search,
   Menu, X, Plus, Edit, Trash2, Eye,
   Package, Building, GraduationCap,
-  Briefcase, TrendingUp, Newspaper, Calendar, ChevronDown, Save, Image
+  Briefcase, TrendingUp, Newspaper, Calendar, ChevronDown, Save, Image,
+  Bold, Italic, Underline, List, Link, AlignLeft, AlignCenter, AlignRight
 } from 'lucide-react';
 
 const API_BASE = 'https://petstream.in/api';
@@ -19,7 +20,7 @@ const sectionConfig = {
     endpoint: 'products',
     fields: [
       { key: 'title',        label: 'Title',         type: 'text' },
-      { key: 'description',  label: 'Description',   type: 'text' },
+      { key: 'description',  label: 'Description',   type: 'editor' }, // Changed to editor
       { key: 'file',           label: 'Image File',     type: 'file', multiple: true },
       { key: 'tag',        label: 'Tag',         type: 'text' },
       { key: 'category',        label: 'Category',         type: 'text' },
@@ -33,7 +34,7 @@ const sectionConfig = {
     endpoint: 'industry',
     fields: [
       { key: 'title',        label: 'Title',        type: 'text' },
-      { key: 'description',  label: 'Description',  type: 'text' },
+      { key: 'description',  label: 'Description',  type: 'editor' }, // Changed to editor
       { key: 'file',         label: 'Image File',   type: 'file' },
       { key: 'tag',        label: 'Tag',         type: 'text' },
       { key: 'category',        label: 'Category',         type: 'text' },
@@ -47,7 +48,7 @@ const sectionConfig = {
     endpoint: 'news',
     fields: [
       { key: 'headline',       label: 'Headline',       type: 'text' },
-      { key: 'content',        label: 'Content',        type: 'text' },
+      { key: 'content',        label: 'Content',        type: 'editor' }, // Changed to editor
       { key: 'file',           label: 'Image File',     type: 'file', multiple: true },
       { key: 'tag',        label: 'Tag',         type: 'text' },
       { key: 'category',        label: 'Category',         type: 'text' },
@@ -60,7 +61,7 @@ const sectionConfig = {
     endpoint: 'events',
     fields: [
       { key: 'title',      label: 'Title',      type: 'text' },
-      { key: 'content',    label: 'Content',   type: 'text' },
+      { key: 'content',    label: 'Content',   type: 'editor' }, // Changed to editor
       { key: 'file',       label: 'Image File', type: 'file' },
       { key: 'tag',        label: 'Tag',         type: 'text' },
       { key: 'category',        label: 'Category',         type: 'text' },
@@ -70,11 +71,222 @@ const sectionConfig = {
   }
 };
 
-// Helper function to truncate text
+// Rich Text Editor Component
+const RichTextEditor = ({ value, onChange, disabled, placeholder, fieldKey }) => {
+  const editorRef = useRef(null);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
+
+  const formatText = (command, value = null) => {
+    if (disabled) return;
+    
+    // Save the current selection
+    const selection = window.getSelection();
+    const range = selection.rangeCount > 0 ? selection.getRangeAt(0) : null;
+    
+    // Execute the command
+    document.execCommand(command, false, value);
+    
+    // Restore focus to editor
+    if (editorRef.current) {
+      editorRef.current.focus();
+    }
+    
+    // Trigger change event
+    handleContentChange();
+  };
+
+  const handleContentChange = () => {
+    if (onChange && editorRef.current) {
+      const content = editorRef.current.innerHTML;
+      onChange({
+        target: {
+          name: fieldKey,
+          value: content
+        }
+      });
+    }
+  };
+
+  const handleInput = (e) => {
+    handleContentChange();
+  };
+
+  const handleFocus = () => {
+    setIsFocused(true);
+  };
+
+  const handleBlur = () => {
+    setIsFocused(false);
+  };
+
+  const handleKeyDown = (e) => {
+    // Handle Enter key to create proper line breaks
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      document.execCommand('insertHTML', false, '<br><br>');
+    }
+  };
+
+  // Initialize content only when value changes from external source
+  useEffect(() => {
+    if (editorRef.current && value !== undefined) {
+      const currentContent = editorRef.current.innerHTML;
+      // Only update if the content is actually different to avoid cursor issues
+      if (currentContent !== value) {
+        const selection = window.getSelection();
+        const wasAtEnd = selection.rangeCount > 0 && 
+                        selection.getRangeAt(0).endOffset === selection.getRangeAt(0).endContainer.textContent?.length;
+        
+        editorRef.current.innerHTML = value || '';
+        
+        // Restore cursor to end if it was at the end
+        if (wasAtEnd && editorRef.current.textContent) {
+          const range = document.createRange();
+          const sel = window.getSelection();
+          range.selectNodeContents(editorRef.current);
+          range.collapse(false);
+          sel.removeAllRanges();
+          sel.addRange(range);
+        }
+      }
+    }
+  }, [value]);
+
+  const showPlaceholder = !isFocused && (!value || value.trim() === '');
+
+  return (
+    <div className="border border-gray-300 rounded-md overflow-hidden relative">
+      {!disabled && (
+        <div className="border-b border-gray-200 p-2 bg-gray-50 flex flex-wrap gap-1">
+          <button
+            type="button"
+            onClick={() => formatText('bold')}
+            className="p-2 hover:bg-gray-200 rounded text-gray-600 transition-colors"
+            title="Bold"
+          >
+            <Bold className="w-4 h-4" />
+          </button>
+          <button
+            type="button"
+            onClick={() => formatText('italic')}
+            className="p-2 hover:bg-gray-200 rounded text-gray-600 transition-colors"
+            title="Italic"
+          >
+            <Italic className="w-4 h-4" />
+          </button>
+          <button
+            type="button"
+            onClick={() => formatText('underline')}
+            className="p-2 hover:bg-gray-200 rounded text-gray-600 transition-colors"
+            title="Underline"
+          >
+            <Underline className="w-4 h-4" />
+          </button>
+          <div className="w-px bg-gray-300 mx-1"></div>
+          <button
+            type="button"
+            onClick={() => formatText('insertUnorderedList')}
+            className="p-2 hover:bg-gray-200 rounded text-gray-600 transition-colors"
+            title="Bullet List"
+          >
+            <List className="w-4 h-4" />
+          </button>
+          <button
+            type="button"
+            onClick={() => formatText('justifyLeft')}
+            className="p-2 hover:bg-gray-200 rounded text-gray-600 transition-colors"
+            title="Align Left"
+          >
+            <AlignLeft className="w-4 h-4" />
+          </button>
+          <button
+            type="button"
+            onClick={() => formatText('justifyCenter')}
+            className="p-2 hover:bg-gray-200 rounded text-gray-600 transition-colors"
+            title="Align Center"
+          >
+            <AlignCenter className="w-4 h-4" />
+          </button>
+          <button
+            type="button"
+            onClick={() => formatText('justifyRight')}
+            className="p-2 hover:bg-gray-200 rounded text-gray-600 transition-colors"
+            title="Align Right"
+          >
+            <AlignRight className="w-4 h-4" />
+          </button>
+          <div className="w-px bg-gray-300 mx-1"></div>
+          <button
+            type="button"
+            onClick={() => {
+              const url = prompt('Enter URL:');
+              if (url) formatText('createLink', url);
+            }}
+            className="p-2 hover:bg-gray-200 rounded text-gray-600 transition-colors"
+            title="Add Link"
+          >
+            <Link className="w-4 h-4" />
+          </button>
+          <div className="ml-auto">
+            <button
+              type="button"
+              onClick={() => setIsExpanded(!isExpanded)}
+              className="p-2 hover:bg-gray-200 rounded text-gray-600 text-xs transition-colors"
+              title={isExpanded ? "Collapse" : "Expand"}
+            >
+              {isExpanded ? "↙" : "↗"}
+            </button>
+          </div>
+        </div>
+      )}
+      
+      <div className="relative">
+        <div
+          ref={editorRef}
+          contentEditable={!disabled}
+          onInput={handleInput}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          onKeyDown={handleKeyDown}
+          className={`p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+            disabled ? 'bg-gray-50 text-gray-600' : 'bg-white'
+          } ${isExpanded ? 'min-h-[300px]' : 'min-h-[120px]'} overflow-y-auto resize-none`}
+          style={{ 
+            maxHeight: isExpanded ? '400px' : '200px',
+            wordBreak: 'break-word',
+            direction: 'ltr', // Ensure left-to-right text direction
+            unicodeBidi: 'normal',
+            textAlign: 'left' // Ensure text starts from left
+          }}
+          suppressContentEditableWarning={true}
+          dir="ltr" // HTML direction attribute
+        />
+        
+        {/* Placeholder overlay */}
+        {showPlaceholder && (
+          <div 
+            className="absolute inset-0 p-3 text-gray-400 pointer-events-none flex items-start"
+            style={{ 
+              top: disabled ? '12px' : (isExpanded ? '12px' : '12px'),
+              left: '12px'
+            }}
+          >
+            {placeholder}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+// Helper function to truncate text and strip HTML
 function truncateText(text, maxLength = 50) {
   if (!text) return '';
-  if (text.length <= maxLength) return text;
-  return text.substring(0, maxLength) + '...';
+  // Strip HTML tags for display in table
+  const strippedText = text.replace(/<[^>]*>/g, '');
+  if (strippedText.length <= maxLength) return strippedText;
+  return strippedText.substring(0, maxLength) + '...';
 }
 
 // Helper function to get file name from path
@@ -104,8 +316,7 @@ export default function AdminDashboard() {
 
   const sidebarItems = [
     { id: 'products',  label: 'Products Update',      icon: Package },
-   { id: 'news',      label: 'Latest News',          icon: Newspaper },
-    
+    { id: 'news',      label: 'Latest News',          icon: Newspaper },
   ];
 
   useEffect(() => {
@@ -184,7 +395,7 @@ export default function AdminDashboard() {
     }
   }
 
-  // Fixed handleChange function to properly handle multiple files
+  // Fixed handleChange function to properly handle multiple files and editor content
   function handleChange(e) {
     const { name, value, type, files } = e.target;
     
@@ -350,12 +561,12 @@ export default function AdminDashboard() {
                         </td>
                       );
                     }
-                    // For text fields - truncate long content and add tooltip
+                    // For text and editor fields - truncate long content and add tooltip
                     return (
                       <td key={f.key} className="px-6 py-4 text-sm text-gray-900 max-w-xs">
                         <div 
                           className="truncate cursor-pointer hover:text-blue-600" 
-                          title={val}
+                          title={f.type === 'editor' ? truncateText(val, 100) : val}
                           onClick={() => handleView(item)}
                         >
                           {truncateText(val, 40)}
@@ -484,7 +695,7 @@ export default function AdminDashboard() {
       {/* Create/Edit/View Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-hidden">
+          <div className="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
             <div className="p-6 border-b border-gray-200">
               <h3 className="text-lg font-semibold text-gray-800">
                 {modalType === 'create'
@@ -496,9 +707,9 @@ export default function AdminDashboard() {
             </div>
             
             <div className="p-6 overflow-y-auto max-h-[calc(90vh-140px)]">
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-6">
                 {cfg.fields.map(f => (
-                  <div key={f.key}>
+                  <div key={f.key} className="relative">
                     <label className="block text-sm font-medium mb-2 text-gray-700" htmlFor={f.key}>
                       {f.label} {f.multiple && '(Multiple files allowed)'}
                     </label>
@@ -518,7 +729,16 @@ export default function AdminDashboard() {
                           </option>
                         ))}
                       </select>
+                    ) : f.type === 'editor' ? (
+                      <RichTextEditor
+                        value={formData[f.key] || ''}
+                        onChange={handleChange}
+                        disabled={modalType === 'view'}
+                        placeholder={`Enter ${f.label.toLowerCase()}...`}
+                        fieldKey={f.key}
+                      />
                     ) : f.key === 'description' || f.key === 'content' ? (
+                      // Fallback textarea for any remaining description/content fields
                       <textarea
                         id={f.key}
                         name={f.key}
