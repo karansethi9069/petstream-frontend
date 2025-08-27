@@ -123,19 +123,25 @@ const ProductsUpdate = () => {
                     </h2>
                     </Link>
                    
+                    
+
                     <p className="text-gray-700">
-                      {expandedItems.includes(products[0].id)
-                        ? products[0].description
-                        : `${products[0].description?.substring(0, 250)}...`}
-                      {products[0].description?.length > 250 && (
-                        <button
-                          onClick={() => toggleReadMore(products[0].id)}
-                          className="ml-2 text-blue-600 hover:underline text-sm"
-                        >
-                          {expandedItems.includes(products[0].id) ? 'Show Less' : 'Read More'}
-                        </button>
-                      )}
-                    </p>
+  {expandedItems.includes(products[0].id) ? (
+    <span
+      dangerouslySetInnerHTML={{ __html: products[0].description }}
+    />
+  ) : (
+   <span>{products[0].description.replace(/<[^>]+>/g, "").substring(0, 250)}...</span>
+  )}
+  {products[0].description?.length > 250 && (
+    <button
+      onClick={() => toggleReadMore(products[0].id)}
+      className="ml-2 text-blue-600 hover:underline text-sm"
+    >
+      {expandedItems.includes(products[0].id) ? "Show Less" : "Read More"}
+    </button>
+  )}
+</p>
                     {(products[0].tag) && (
   <div className="mb-4">
     <span className="text-base text-gray-700 font-semibold underline">Tags  :</span>
