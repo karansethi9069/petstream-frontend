@@ -87,7 +87,7 @@ const NewsEventsWidget = () => {
                 : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
             }`}
           >
-            Latest News ({recentNews.length})
+            Latest News & Events ({recentNews.length})
           </button>
          
         </div>
