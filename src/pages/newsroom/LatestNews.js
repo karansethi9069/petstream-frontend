@@ -105,19 +105,24 @@ const LatestNews = () => {
                       {news[0].author && <> • By {news[0].author}</>}
                     </div>
                     
-                    <p className="text-gray-700">
-                      {expandedItems.includes(news[0].id)
-                        ? news[0].content
-                        : `${news[0].content?.substring(0, 250)}...`}
-                      {news[0].content?.length > 250 && (
-                        <button
-                          onClick={() => toggleReadMore(news[0].id)}
-                          className="ml-2 text-blue-600 hover:underline text-sm"
-                        >
-                          {expandedItems.includes(news[0].id) ? 'Show Less' : 'Read More'}
-                        </button>
-                      )}
-                    </p>
+                      <p className="text-gray-700">
+                        {expandedItems.includes(news[0].id) ? (
+                          <span
+                            dangerouslySetInnerHTML={{ __html: news[0].content }}
+                          />
+                        ) : (
+                          <span>{news[0].content.replace(/<[^>]+>/g, "").substring(0, 250)}...</span>
+                        )}
+                        {news[0].content?.length > 250 && (
+                          <button
+                            onClick={() => toggleReadMore(news[0].id)}
+                            className="ml-2 text-blue-600 hover:underline text-sm"
+                          >
+                            {expandedItems.includes(news[0].id) ? "Show Less" : "Read More"}
+                          </button>
+                        )}
+                      </p>
+
                      {(news[0].tag) && (
   <div className="mb-4">
     <span className="text-base text-gray-700 font-semibold underline">Tags  :</span>
