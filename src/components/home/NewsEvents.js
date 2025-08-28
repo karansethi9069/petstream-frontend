@@ -87,7 +87,7 @@ const NewsEventsWidget = () => {
                 : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
             }`}
           >
-            Latest News & Events ({recentNews.length})
+            Latest News ({recentNews.length})
           </button>
          
         </div>
@@ -118,7 +118,7 @@ const NewsEventsWidget = () => {
                     {news.headline || news.title}
                   </h4>
                   <p className="text-xs text-gray-500 mt-1 line-clamp-2">
-                    {(news.description || news.content || '').substring(0, 80)}...
+                    {news.content.replace(/<[^>]+>/g, "").substring(0, 80)}
                   </p>
                 </Link>
               ))}
