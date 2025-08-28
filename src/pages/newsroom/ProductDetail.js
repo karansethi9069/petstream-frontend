@@ -231,9 +231,10 @@ const ProductDetail = () => {
               <h1 className="text-[44px] font-extrabold text-gray-900 mb-3 leading-snug">
                 {news.headline || "Products Update News"}
               </h1>
+              
 
               <div className="text-sm text-gray-500 mb-2">
-                {new Date(news.published_date).toLocaleDateString()}
+                {new Date(news.created_date).toLocaleDateString()}
                 {news.author && <> • By {news.author}</>}
               </div>
               
