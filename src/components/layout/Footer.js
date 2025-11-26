@@ -9,7 +9,10 @@ import {
   FaLinkedinIn,
   FaInstagram
 } from 'react-icons/fa';
+
 import logo from '../../assets/images/f_logo.png';
+import footer_logo_one from '../../assets/images/footer_logo_one.png';
+import footer_logo_two from '../../assets/images/footer_logo_two.png';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -75,6 +78,10 @@ const Footer = () => {
               <Link to="/contact" className="block text-gray-300 hover:text-blue-400 transition-colors text-sm">
                 <span className="mr-1 text-blue-500">›</span> Contact
               </Link>
+          <div className="flex items-center gap-4 mt-4">
+                  <img src={footer_logo_one} alt="UAF Logo" className="h-16 w-auto hover:scale-110 transition-transform"></img>
+                  <img src={footer_logo_two} alt="ISO Logo" className="h-16 w-auto hover:scale-110 transition-transform"></img>
+                  </div>
             </div>
           </div>
 
