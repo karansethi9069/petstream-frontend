@@ -98,7 +98,7 @@ const LatestNews = () => {
                       </div>
                     )}
                     <Link to={`/newsroom/news/detail/${news[0].id}`}>
-                    <h2 className="text-3xl font-bold text-gray-800 mb-2 no-underline hover:underline transition">{news[0].headline || 'Untitled News'}   </h2>
+                    <h2 className="text-3xl font-bold text-gray-800 mb-2 transition-colors hover:text-blue-800 hover:underline">{news[0].headline || 'Untitled News'}   </h2>
                     </Link>
                     <div className="text-sm text-gray-500 mb-2">
                       {new Date(news[0].published_date).toLocaleDateString()}
@@ -165,7 +165,7 @@ const LatestNews = () => {
                       </div>
                     )}
                     <Link to={`/newsroom/news/detail/${news[1].id}`}>
-                    <h2 className="text-3xl font-bold text-gray-800 mb-2 no-underline hover:underline transition">{news[1].headline || 'Untitled News'}</h2>
+                    <h2 className="text-3xl font-bold text-gray-800 mb-2 transition-colors hover:text-blue-800 hover:underline">{news[1].headline || 'Untitled News'}</h2>
                     </Link>
                     <div className="text-sm text-gray-500 mb-2">
                       {new Date(news[1].published_date).toLocaleDateString()}
@@ -258,7 +258,7 @@ const LatestNews = () => {
 
                       
                       <Link to={`/newsroom/news/detail/${item.id}`}>
-                      <h2 className="text-3xl font-bold text-gray-800 mb-2 no-underline hover:underline transition">
+                      <h2 className="text-3xl font-bold text-gray-800 mb-2 transition-colors hover:text-blue-800 hover:underline">
   {item.headline && item.headline.length > 30 
     ? item.headline.substring(0, 100)
     : item.headline || "Untitled News"}
