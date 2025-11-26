@@ -118,7 +118,7 @@ const ProductsUpdate = () => {
                       </div>
                     )}
                     <Link to={`/newsroom/products/${products[0].id}`}>
-                    <h2 className="text-3xl font-bold text-gray-800 mb-2 no-underline hover:underline transition">
+                    <h2 className="text-3xl font-bold text-gray-800 mb-2 transition-colors hover:text-blue-800 hover:underline">
                       {products[0].title || 'Untitled Product'}  
                     </h2>
                     </Link>
@@ -156,7 +156,7 @@ const ProductsUpdate = () => {
                                     <br></br>
                     {products?.[0]?.file?.length > 0 && (
   <img
-    src={`https://petstream.in${JSON.parse(products[0].file)[0]}`}
+   src={`https://petstream.in${JSON.parse(products[0].file)[0]}`}
     alt="products"
     className="w-full h-80 object-cover rounded-md mb-4 transition-transform duration-300 ease-in-out transform hover:scale-105"
   />
@@ -173,7 +173,7 @@ const ProductsUpdate = () => {
                                       </div>
                                     )}
                                     <Link to={`/newsroom/products/${products[1].id}`}>
-                                    <h2 className="text-3xl font-bold text-gray-800 mb-2 no-underline hover:underline transition">
+                                    <h2 className="text-3xl font-bold text-gray-800 mb-2 transition-colors hover:text-blue-800 hover:underline">
                                       {products[1].title || 'Untitled products'}</h2>
                                     </Link>
                                     <div className="text-sm text-gray-500 mb-2">
@@ -261,7 +261,7 @@ const ProductsUpdate = () => {
               
                                     
                                     <Link to={`/newsroom/products/${item.id}`}>
-                                    <h2 className="text-3xl font-bold text-gray-800 mb-2 no-underline hover:underline transition">
+                                    <h2 className="text-3xl font-bold text-gray-800 mb-2 transition-colors hover:text-blue-800 hover:underline">
                 {item.title && item.title.length > 30 
                   ? item.title.substring(0, 100)
                   : item.title || "Untitled News"}
